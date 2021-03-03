@@ -1,0 +1,147 @@
+%YAML 1.2
+---
+# Copyright (c) 2021 Google LLC
+# SPDX-License-Identifier: MIT
+#
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Coreboot Device Tree
+file_extensions:
+  - cb
+scope: source.cb
+variables:
+  path: '\b[\w_-]+(?:/[\w_-]*)*\b'
+
+contexts:
+  prototype:
+    - include: comments
+  or_pop:
+    # Pop if nothing matched (whitespace is ignored).
+    - match: '(?=\S)'
+      pop: true
+  comments:
+    - match: "(#).*$"
+      captures:
+        0: comment.line
+        1: punctuation.definition.comment
+  main:
+    - include: chip
+    - include: register
+    - include: device
+    - include: subsystemid
+    - include: assignments
+    - include: ioapic_irq
+    - include: smbios_slot_desc
+    - match: '\S+'
+      scope: invalid.illegal
+  chip:
+    - match: chip
+      scope: keyword.other.chip.cb
+      push:
+        - meta_scope: meta.chip.cb
+        - match: '{{path}}'
+          scope: storage.type.chip.cb
+          set:
+            - meta_content_scope: meta.block.chip.cb
+            - match: \bend\b
+              scope: keyword.other.end.cb
+              pop: true
+            - include: main
+        - include: or_pop
+  assignments:
+    - match: \b(io|irq|drq)\b
+      scope: keyword.other.register.cb
+      push:
+        - - meta_scope: meta.assignment.cb
+          - include: number
+          - include: or_pop
+        - - match: =
+            scope: keyword.operator.assignment.cb
+            pop: true
+          - include: or_pop
+        - - include: number
+          - include: or_pop
+  register:
+    - match: register
+      scope: keyword.other.register.cb
+      push:
+        - - meta_scope: meta.register.db
+          - include: string
+          - include: or_pop
+        - - match: =
+            scope: keyword.operator.assignment.cb
+            pop: true
+          - include: or_pop
+        - - include: string
+          - include: or_pop
+  device:
+    - match: device
+      scope: keyword.other.device.cb
+      push:
+        - - meta_scope: meta.device.cb
+          - match: 'on|off'
+            scope: keyword.operator.other.cb
+            set:
+            - meta_content_scope: meta.block.device.cb
+            - match: \bend\b
+              scope: keyword.other.end.cb
+              pop: true
+            - include: main
+          - include: or_pop
+        - - include: number
+          - include: or_pop
+        - - match: '[\w_]+'
+            scope: support.type.device.cb
+            pop: true
+          - include: or_pop
+  subsystemid:
+    - match: subsystemid
+      scope: keyword.other.subsystemid.cb
+      push:
+        - - meta_scope: meta.subsystemid.cb
+          - match: inherit
+            scope: keyword.operator.control.cb
+            pop: true
+          - include: or_pop
+        - - include: number
+          - include: or_pop
+  ioapic_irq:
+    - match: ioapic_irq
+      scope: keyword.other.ioapic_irq.cb
+      push:
+        - - meta_scope: meta.ioapic_irq.cb
+          - include: number
+          - include: or_pop
+        - - match: '\bINT[A-D]\b'
+            scope: keyword.other.int.cb
+            pop: true
+          - include: or_pop
+        - - include: number
+          - include: or_pop
+  smbios_slot_desc:
+    - match: smbios_slot_desc
+      scope: keyword.other.smbios_slot_desc.cb
+      push:
+        - - meta_scope: meta.smbios_slot_desc.cb
+          - include: string
+          - include: or_pop
+  string:
+    - match: '""'
+      scope: punctuation.definition.string.begin.c
+      set:
+        - meta_scope: string.quoted.double
+        - match: '""'
+          scope: punctuation.definition.string.end.c
+          pop: true
+    - match: '"'
+      scope: punctuation.definition.string.begin.c
+      embed: scope:source.c#statements
+      embed_scope: source.c.embedded.cb
+      escape: '"'
+      escape_captures:
+        0: punctuation.definition.string.end.c
+
+  number:
+    - match: '\b0x[a-fA-F0-9]+\b'
+      scope: constant.numeric.integer.hexadecimal
+    - match: '\b[a-fA-F0-9_\.]+\b'
+      scope: constant.numeric.integer.hexadecimal
