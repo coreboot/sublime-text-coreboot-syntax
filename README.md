@@ -9,7 +9,7 @@ easier.
 
 ![Coreboot Device Tree Screenshot](screenshots/device_tree.png)
 
-Device Tree aliases are also supported. This allows jumping between references and
+Device tree device aliases are also supported. This allows jumping between references and
 definitions of device tree devices.
 
 Coming Soon:
@@ -20,5 +20,8 @@ Coming Soon:
 
 ## Contributions
 
-This repository is currently hosted at [review.coreboot.org](https://review.coreboot.org/). See the
+This repository is currently hosted at [review.coreboot.org](https://review.coreboot.org/). After creating an account clone the
+[sublime-text-coreboot-syntax](https://review.coreboot.org/admin/repos/sublime-text-coreboot-syntax) repo.
+
+See the
 [guidelines](https://doc.coreboot.org/getting_started/gerrit_guidelines.html) for more information.
