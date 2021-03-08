@@ -73,6 +73,20 @@ contexts:
           - include: or_pop
         - - include: string
           - include: or_pop
+  alias_definition:
+    - match: alias
+      scope: keyword.other.alias.cb
+      set: 
+        - match: '[\w_]+'
+          scope: entity.name.alias.cb
+          pop: true
+  alias_reference:
+    - match: ref
+      scope: keyword.other.ref.cb
+      set: 
+        - match: '[\w_]+'
+          scope: support.type.alias.cb
+          pop: true 
   device:
     - match: device
       scope: keyword.other.device.cb
@@ -87,9 +101,12 @@ contexts:
               pop: true
             - include: main
           - include: or_pop
+        - - include: alias_definition
+          - include: or_pop
         - - include: number
           - include: or_pop
-        - - match: '[\w_]+'
+        - - include: alias_reference
+          - match: '[\w_]+'
             scope: support.type.device.cb
             pop: true
           - include: or_pop
