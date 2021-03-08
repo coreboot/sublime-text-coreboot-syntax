@@ -7,7 +7,10 @@ easier.
 
 ### Coreboot Device Tree
 
-![Coreboot Device Tree Screenshot](screenshots/Coreboot Device Tree.png?raw=true)
+![Coreboot Device Tree Screenshot](screenshots/device_tree.png)
+
+Device Tree aliases are also supported. This allows jumping between references and
+definitions of device tree devices.
 
 Coming Soon:
 * C - There is [PR](https://github.com/sublimehq/Packages/pull/1831) that
