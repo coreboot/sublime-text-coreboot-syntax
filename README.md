@@ -25,3 +25,7 @@ This repository is currently hosted at [review.coreboot.org](https://review.core
 
 See the
 [guidelines](https://doc.coreboot.org/getting_started/gerrit_guidelines.html) for more information.
+
+## License
+
+This repository is licensed under the `MIT` license. For some parts, which were derived from other projects, other licenses may apply. Please check the individual source files for details.
