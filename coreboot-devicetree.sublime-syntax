@@ -64,7 +64,7 @@ contexts:
     - match: register
       scope: keyword.other.register.cb
       push:
-        - - meta_scope: meta.register.db
+        - - meta_scope: meta.register.cb
           - include: string
           - include: or_pop
         - - match: =
