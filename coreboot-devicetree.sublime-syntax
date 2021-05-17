@@ -10,6 +10,7 @@ file_extensions:
 scope: source.cb
 variables:
   path: '\b[\w_-]+(?:/[\w_-]*)*\b'
+  identifier: '[A-Za-z_][A-Za-z_0-9]*'
 
 contexts:
   prototype:
@@ -25,6 +26,7 @@ contexts:
         1: punctuation.definition.comment
   main:
     - include: chip
+    - include: use
     - include: register
     - include: device
     - include: subsystemid
@@ -59,6 +61,23 @@ contexts:
             pop: true
           - include: or_pop
         - - include: number
+          - include: or_pop
+  use:
+    - match: use
+      scope: keyword.other.use.cb
+      push:
+        - - meta_scope: meta.use.cb
+          - match: '{{identifier}}'
+            scope: variable.other.as.cb
+            pop: true
+          - include: or_pop
+        - - match: as
+            scope: keyword.other.as.cb
+            pop: true
+          - include: or_pop
+        - - match: '{{identifier}}'
+            scope: variable.other.use.cb
+            pop: true
           - include: or_pop
   register:
     - match: register

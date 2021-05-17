@@ -4,7 +4,9 @@
 <dict>
     <key>scope</key>
     <string>
-        source.cb variable.other.ref.cb
+        source.cb variable.other.ref.cb,
+        source.cb variable.other.use.cb,
+        source.cb variable.other.as.cb
     </string>
     <key>settings</key>
     <dict>
