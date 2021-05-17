@@ -1,0 +1,60 @@
+# SYNTAX TEST "Packages/sublime-text-coreboot-syntax/coreboot-devicetree.sublime-syntax"
+
+chip soc/foo/bar
+# <- meta.chip.cb keyword.other.chip.cb
+#    ^^^^^^^^^^^ meta.chip.cb storage.type.chip.cb
+        register "simple_register" = "1"
+#       ^^^^^^^^ meta.block.chip.cb meta.register.cb keyword.other.register.cb
+#                ^ punctuation.definition.string.begin.c
+#                 ^^^^^^^^^^^^^^^ source.c variable.other.indexed.c
+#                                     ^ source.c constant.numeric.integer.decimal.c
+
+        chip drivers/sensor/temperature
+#       ^^^^ meta.block.chip.cb meta.chip.cb keyword.other.chip.cb
+#            ^^^^^^^^^^^^^^^^^^^^^^^^^^ meta.block.chip.cb meta.chip.cb storage.type.chip.cb
+                register "description" = ""SOC""
+#               ^^^^^^^^ meta.register.cb keyword.other.register.cb
+#                        ^ punctuation.definition.string.begin.c
+#                         ^^^^^^^^^^^ source.c variable.other.indexed.c
+#                                      ^ keyword.operator.assignment.cb
+#                                        ^^ string.quoted.double punctuation.definition.string.begin.c
+#                                          ^^^ string.quoted.double
+#                                             ^^ string.quoted.double punctuation.definition.string.end.c
+
+                use ec as temperature_controller
+#               ^^^ meta.use.cb keyword.other.use.cb
+#                   ^^ meta.use.cb variable.other.use.cb
+#                      ^^ meta.use.cb keyword.other.as.cb
+#                         ^^^^^^^^^^^^^^^^^^^^^^ variable.other.as.cb
+
+                device generic 0 on end
+#               ^^^^^^ meta.device.cb keyword.other.device.cb
+#                      ^^^^^^^ support.type.device.cb
+#                              ^ constant.numeric.integer.hexadecimal
+#                                ^^ keyword.operator.other.cb
+#                                   ^^^ keyword.other.end.cb
+        end
+#       ^^^ meta.block.chip.cb keyword.other.end.cb
+
+        device ref lpc_bridge on
+#       ^^^^^^ keyword.other.device.cb
+#              ^^^ keyword.other.ref.cb
+#                  ^^^^^^^^^^ variable.other.ref.cb
+#                             ^^ keyword.operator.other.cb
+                chip ec/google/chromeec
+#               ^^^^ keyword.other.chip.cb
+#                    ^^^^^^^^^^^^^^^^^^ storage.type.chip.cb
+                        device pnp 0c09.0 alias ec on end
+#                       ^^^^^^ keyword.other.device.cb
+#                              ^^^ support.type.device.cb
+#                                  ^^^^^^ constant.numeric.integer.hexadecimal
+#                                         ^^^^^ keyword.other.alias.cb
+#                                               ^^ entity.name.alias.cb
+#                                                  ^^ keyword.operator.other.cb
+#                                                     ^^^ keyword.other.end.cb
+                end
+#               ^^^ meta.block.chip.cb meta.block.device.cb keyword.other.end.cb
+        end
+#       ^^^ meta.block.chip.cb keyword.other.end.cb
+end
+# <- keyword.other.end.cb
