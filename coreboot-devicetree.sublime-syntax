@@ -76,16 +76,16 @@ contexts:
   alias_definition:
     - match: alias
       scope: keyword.other.alias.cb
-      set: 
+      set:
         - match: '[\w_]+'
           scope: entity.name.alias.cb
           pop: true
   alias_reference:
     - match: ref
       scope: keyword.other.ref.cb
-      set: 
+      set:
         - match: '[\w_]+'
-          scope: support.type.alias.cb
+          scope: variable.other.ref.cb
           pop: true 
   device:
     - match: device

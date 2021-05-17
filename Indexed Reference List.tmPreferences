@@ -4,7 +4,7 @@
 <dict>
     <key>scope</key>
     <string>
-        source.cb support.type.alias.cb
+        source.cb variable.other.ref.cb
     </string>
     <key>settings</key>
     <dict>
