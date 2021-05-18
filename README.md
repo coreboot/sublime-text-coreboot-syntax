@@ -13,8 +13,9 @@ Device tree device aliases are also supported. This allows jumping between refer
 definitions of device tree devices.
 
 Coming Soon:
+
 * C - There is [PR](https://github.com/sublimehq/Packages/pull/1831) that
-	  drastically improves the C syntax definition.
+  drastically improves the C syntax definition.
 * Kconfig
 * ASL
 
