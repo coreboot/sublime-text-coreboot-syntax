@@ -29,6 +29,7 @@ contexts:
     - include: use
     - include: register
     - include: device
+    - include: fw_config
     - include: subsystemid
     - include: assignments
     - include: ioapic_irq
@@ -49,6 +50,43 @@ contexts:
               pop: true
             - include: main
         - include: or_pop
+  fw_config:
+    - match: fw_config
+      scope: keyword.other.fw_config.cb
+      set:
+        - meta_scope: meta.block.fw_config.cb
+        - match: \bend\b
+          scope: keyword.other.end.cb
+          pop: true
+        - include: fw_config-field
+  fw_config-field:
+    - match: field
+      scope: keyword.other.field.cb
+      push:
+        - - meta_scope: meta.field.cb
+          - match: \bend\b
+            scope: keyword.other.end.cb
+            pop: true
+        - - match: \boption\b
+            scope: keyword.other.option.cb
+            push:
+              - - meta_scope: meta.option.cb
+                - match: \d+
+                  scope: constant.numeric.integer
+                  pop: true
+                - include: or_pop
+              - - match: '{{identifier}}'
+                  scope: entity.name.option.cb
+                  pop: true
+                - include: or_pop
+          - include: or_pop
+        - - match: \d+
+            scope: constant.numeric.integer
+          - include: or_pop
+        - - match: '{{identifier}}'
+            scope: entity.name.field.cb
+            pop: true
+          - include: or_pop
   assignments:
     - match: \b(io|irq|drq)\b
       scope: keyword.other.register.cb

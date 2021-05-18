@@ -58,3 +58,34 @@ chip soc/foo/bar
 #       ^^^ meta.block.chip.cb keyword.other.end.cb
 end
 # <- keyword.other.end.cb
+
+fw_config
+# <- meta.block.fw_config.cb keyword.other.fw_config.cb
+        field BOB end
+#       ^^^^^ meta.block.fw_config.cb meta.field.cb keyword.other.field.cb
+#             ^^^ meta.block.fw_config.cb meta.field.cb entity.name.field.cb
+#                 ^^^ meta.block.fw_config.cb meta.field.cb keyword.other.end.cb
+        field FOO 0
+#       ^^^^^ meta.block.fw_config.cb meta.field.cb keyword.other.field.cb
+#             ^^^ meta.block.fw_config.cb meta.field.cb entity.name.field.cb
+#                 ^ meta.block.fw_config.cb meta.field.cb constant.numeric.integer
+        end
+#       ^^^ meta.block.fw_config.cb meta.field.cb keyword.other.end.cb
+
+        field USB_DB 1 2
+#       ^^^^^ meta.block.fw_config.cb meta.field.cb keyword.other.field.cb
+#             ^^^^^^ meta.block.fw_config.cb meta.field.cb entity.name.field.cb
+#                    ^ meta.block.fw_config.cb meta.field.cb constant.numeric.integer
+#                      ^ meta.block.fw_config.cb meta.field.cb constant.numeric.integer
+                option USB_DB_A0 0
+#               ^^^^^^ meta.block.fw_config.cb meta.field.cb meta.option.cb keyword.other.option.cb
+#                      ^^^^^^^^^ meta.block.fw_config.cb meta.field.cb meta.option.cb entity.name.option.cb
+#                                ^ meta.block.fw_config.cb meta.field.cb meta.option.cb constant.numeric.integer
+                option USB_DB_A1 1
+#               ^^^^^^ meta.block.fw_config.cb meta.field.cb meta.option.cb keyword.other.option.cb
+#                      ^^^^^^^^^ meta.block.fw_config.cb meta.field.cb meta.option.cb entity.name.option.cb
+#                                ^ meta.block.fw_config.cb meta.field.cb meta.option.cb constant.numeric.integer
+        end
+#       ^^^ meta.block.fw_config.cb meta.field.cb keyword.other.end.cb
+end
+# <- meta.block.fw_config.cb keyword.other.end.cb
