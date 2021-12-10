@@ -6,7 +6,10 @@
     <string>
         source.cb variable.other.ref.cb,
         source.cb variable.other.use.cb,
-        source.cb variable.other.as.cb
+        source.cb variable.other.as.cb,
+
+        source.asl variable.other.asl,
+        source.asl constant.other.macro.asl
     </string>
     <key>settings</key>
     <dict>

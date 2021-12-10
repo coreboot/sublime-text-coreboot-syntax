@@ -1,0 +1,600 @@
+%YAML 1.2
+---
+# Copyright (c) 2021 Google LLC
+# SPDX-License-Identifier: MIT
+#
+# http://www.sublimetext.com/docs/3/syntax.html
+name: Coreboot ACPI Source Language (ASL)
+file_extensions:
+  - asl
+  - asi
+scope: source.asl
+variables:
+  path: '\b[\w_-]+(?:/[\w_-]*)*\b'
+  reserved_identifier: '\b_[A-Z_0-9]*\b'
+  identifier: '\b[A-Z_][A-Z_0-9]{0,3}\b'
+  cpp_identifier: '\b[A-Za-z_][A-Za-z_0-9]*\b'
+  cpp_macro: '\b[A-Z][A-Z_0-9]+\b'
+
+
+contexts:
+  prototype:
+    - include: comments
+  or_pop:
+    # Pop if nothing matched (whitespace is ignored).
+    - match: '(?=\S)'
+      pop: true
+
+  comments:
+    - match: "(//).*$"
+      captures:
+        0: comment.line
+        1: punctuation.definition.comment.asl
+    - match: /\*
+      scope: punctuation.definition.comment.asl
+      push:
+        - meta_scope: comment.block
+        - match: \*/
+          scope: punctuation.definition.comment.asl
+          pop: true
+
+  # We need to define the keywords so we don't confuse them with object names
+  access-attrib-keyword:
+    - match: (?i)\b(?:AttribQuick|AttribSendReceive|AttribByte|AttribWord|AttribBlock |AttribProcessCall|AttribBlockProcessCall)\b
+      scope: keyword.other.asl
+  access-type-keyword:
+    - match: (?i)\b(?:AnyAcc|ByteAcc|WordAcc|DWordAcc|QWordAcc|BufferAcc)\b
+      scope: keyword.other.asl
+  address-keyword:
+    - match: (?i)\b(?:AddressRangeMemory|AddressRangeReserved|AddressRangeNVS|AddressRangeACPI)\b
+      scope: keyword.other.asl
+  address-space-keyword:
+    - match: (?i)\b(?:RegionSpaceKeyword|FFixedHW)\b
+      scope: keyword.other.asl
+  addressing-mode-keyword:
+    - match: (?i)\b(?:AddressingMode7Bit|AddressingMode10Bit)\b
+      scope: keyword.other.asl
+  byte-length-keyword:
+    - match: (?i)\b(?:DataBitsFive|DataBitsSix|DataBitsSeven|DataBitsEight|DataBitsNine)\b
+      scope: keyword.other.asl
+  bus-master-keyword:
+    - match: (?i)\b(?:BusMaster|NotBusMaster)\b
+      scope: keyword.other.asl
+  clock-phase-keyword:
+    - match: (?i)\b(?:ClockPhaseFirst|ClockPhaseSecond)\b
+      scope: keyword.other.asl
+  clock-polarity-keyword:
+    - match: (?i)\b(?:ClockPolarityLow|ClockPolarityHigh)\b
+      scope: keyword.other.asl
+  decode-keyword:
+    - match: (?i)\b(?:SubDecode|PosDecode)\b
+      scope: keyword.other.asl
+  endian-keyword:
+    - match: (?i)\b(?:BigEndianing|LittleEndian)\b
+      scope: keyword.other.asl
+  extended-access-attrib-keyword:
+    - match: (?i)\b(?:AttribBytes|AttribRawBytes|AttribRawProcessBytes)\b
+      scope: keyword.other.asl
+  flow-control-keyword:
+    - match: (?i)\b(?:FlowControlNone|FlowControlXon|FlowControlHardware)\b
+      scope: keyword.other.asl
+  interrupt-type-keyword:
+    - match: (?i)\b(?:Edge|Level)\b
+      scope: keyword.other.asl
+  interrupt-level:
+    - match: (?i)\b(?:ActiveHigh|ActiveLow)\b
+      scope: keyword.other.asl
+  interrupt-level-keyword:
+    - match: (?i)\b(?:ActiveHigh|ActiveLow|ActiveBoth)\b
+      scope: keyword.other.asl
+  i-o-decode-keyword:
+    - match: (?i)\b(?:Decode16|Decode10)\b
+      scope: keyword.other.asl
+  io-restriction-keyword:
+    - match: (?i)\b(?:IoRestrictionNone|IoRestrictionInputOnly|IoRestrictionOutputOnly|IoRestrictionNoneAndPreserve)\b
+      scope: keyword.other.asl
+  lock-rule-keyword:
+    - match: (?i)\b(?:Lock|NoLock)\b
+      scope: keyword.other.asl
+  match-op-keyword:
+    - match: (?i)\b(?:MTR|MEQ|MLE|MLT|MGE|MGT)\b
+      scope: keyword.other.asl
+  max-keyword:
+    - match: (?i)\b(?:MaxFixed|MaxNotFixed)\b
+      scope: keyword.other.asl
+  mem-type-keyword:
+    - match: (?i)\b(?:Cacheable|WriteCombining|Prefetchable|NonCacheable)\b
+      scope: keyword.other.asl
+  min-keyword:
+    - match: (?i)\b(?:MinFixed|MinNotFixed)\b
+      scope: keyword.other.asl
+  object-type-keyword:
+    - match: (?i)\b(?:UnknownObj|IntObj|StrObj|BuffObj|PkgObj|FieldUnitObj|DeviceObj|EventObj|MethodObj|MutexObj|OpRegionObj|PowerResObj|ProcessorObj|ThermalZoneObj|BuffFieldObj|DDBHandleObj)\b
+      scope: keyword.other.asl
+  parity-keyword:
+    - match: (?i)\b(?:ParityTypeNone|ParityTypeSpace|ParityTypeMark|ParityTypeOdd|ParityTypeEven)\b
+      scope: keyword.other.asl
+  pin-config-keyword:
+    - match: (?i)\b(?:PullDefault|PullUp|PullDown|PullNone)\b
+      scope: keyword.other.asl
+  polarity-keyword:
+    - match: (?i)\b(?:PolarityHigh|PolarityLow)\b
+      scope: keyword.other.asl
+  range-type-keyword:
+    - match: (?i)\b(?:ISAOnlyRanges|NonISAOnlyRanges|EntireRange)\b
+      scope: keyword.other.asl
+  read-write-keyword:
+    - match: (?i)\b(?:ReadWrite|ReadOnly)\b
+      scope: keyword.other.asl
+  region-space-keyword:
+    - match: (?i)\b(?:SystemIO|SystemMemory|PCI_Config|EmbeddedControl|SMBus|SystemCMOS|PciBarTarget|IPMI|GeneralPurposeIO|GenericSerialBus|PCC)\b
+      scope: keyword.other.asl
+  resource-type-keyword:
+    - match: (?i)\b(?:ResourceConsumer|ResourceProducer)\b
+      scope: keyword.other.asl
+  serialize-rule-keyword:
+    - match: (?i)\b(?:Serialized|NotSerialized)\b
+      scope: keyword.other.asl
+  share-type-keyword:
+    - match: (?i)\b(?:Shared|Exclusive|SharedAndWake|ExclusiveAndWake)\b
+      scope: keyword.other.asl
+  slave-mode-keyword:
+    - match: (?i)\b(?:ControllerInitiated|DeviceInitiated)\b
+      scope: keyword.other.asl
+  stop-bits-keyword:
+    - match: (?i)\b(?:StopBitsZero|StopBitsOne|StopBitsOnePlusHalf|StopBitsTwo)\b
+      scope: keyword.other.asl
+  transfer-width-keyword:
+    - match: (?i)\b(?:Width8Bit|Width16Bit|Width32Bit|Width64Bit|Width128Bit|Width256Bit)\b
+      scope: keyword.other.asl
+  translation-keyword:
+    - match: (?i)\b(?:SparseTranslation|DenseTranslation)\b
+      scope: keyword.other.asl
+  type-keyword:
+    - match: (?i)\b(?:TypeTranslation|TypeStatic)\b
+      scope: keyword.other.asl
+  update-rule-keyword:
+    - match: (?i)\b(?:Preserve|WriteAsOnes|WriteAsZeros)\b
+      scope: keyword.other.asl
+  xfer-type-keyword:
+    - match: (?i)\b(?:Transfer8|Transfer16|Transfer8_16)\b
+      scope: keyword.other.asl
+  wire-mode-keyword:
+    - match: (?i)\b(?:ThreeWireMode|FourWireMode)\b
+      scope: keyword.other.asl
+
+  parameter-keywords:
+    - include: access-attrib-keyword
+    - include: access-type-keyword
+    - include: address-keyword
+    - include: address-space-keyword
+    - include: addressing-mode-keyword
+    - include: byte-length-keyword
+    - include: bus-master-keyword
+    - include: clock-phase-keyword
+    - include: clock-polarity-keyword
+    - include: decode-keyword
+    - include: endian-keyword
+    - include: extended-access-attrib-keyword
+    - include: flow-control-keyword
+    - include: interrupt-type-keyword
+    - include: interrupt-level
+    - include: interrupt-level-keyword
+    - include: i-o-decode-keyword
+    - include: io-restriction-keyword
+    - include: lock-rule-keyword
+    - include: match-op-keyword
+    - include: max-keyword
+    - include: mem-type-keyword
+    - include: min-keyword
+    - include: object-type-keyword
+    - include: parity-keyword
+    - include: pin-config-keyword
+    - include: polarity-keyword
+    - include: range-type-keyword
+    - include: read-write-keyword
+    - include: region-space-keyword
+    - include: resource-type-keyword
+    - include: serialize-rule-keyword
+    - include: share-type-keyword
+    - include: slave-mode-keyword
+    - include: stop-bits-keyword
+    - include: transfer-width-keyword
+    - include: translation-keyword
+    - include: type-keyword
+    - include: update-rule-keyword
+    - include: xfer-type-keyword
+    - include: wire-mode-keyword
+
+  asl-primary-terms:
+    - match: |-
+        \b(?xi:
+          AccessAs|
+          Acquire|
+          Alias|
+          BankField|
+          BreakPoint|
+          Break|
+          Buffer|
+          ConcatenateResTemplate|
+          Concatenate|
+          Connection|
+          CondRefOf|
+          Continue|
+          CopyObject|
+          CreateBitField|
+          CreateByteField|
+          CreateField|
+          CreateQWordField|
+          CreateWordField|
+          DataTableRegion|
+          Debug|
+          DefinitionBlock|
+          DerefOf|
+          Event|
+          External|
+          Fatal|
+          FindSetLeftBit|
+          FindSetRightBit|
+          FromBCD|
+          Function|
+          Include|
+          IndexField|
+          Index|
+          LoadTable|
+          Load|
+          Match|
+          Mid|
+          Mutex|
+          Notify|
+          ObjectType|
+          Offset|
+          OperationRegion|
+          Package|
+          PowerResource|
+          Processor|
+          RawDataBuffer|
+          RefOf|
+          Release|
+          Reset|
+          Return|
+          Scope|
+          Signal|
+          SizeOf|
+          Sleep|
+          Stall|
+          Store|
+          ThermalZone|
+          ToBCD|
+          ToBuffer|
+          ToDecimalString|
+          ToHexString|
+          ToInteger|
+          ToPLD|
+          ToString|
+          ToUUID|
+          Unicode|
+          Unload|
+          Wait|
+          While|
+        )\b
+      scope: keyword.other.asl
+
+  const-expr-term:
+    - match: (?i)\b(?:Zero|One|Ones)\b
+      scope: constant.numeric.asl
+
+  asl-macros:
+    - match: (?i)\b(?:EISAID|For|Fprintf|Printf|ResourceTemplate|ToPLD|ToUUID|Unicode)\b
+      scope: keyword.other.asl
+
+  resource-templates:
+    - match: (?i)\b(?:DMA|DWordIO|DWordMemory|DWordSpace|ExtendedIO|ExtendedMemory|ExtendedSpace|FixedDMA|FixedIO|GpioInt|GpioIO|I2CSerialBusV2|IO|IRQNoFlags|IRQ|Memory24|Memory32Fixed|Memory32|PinConfig|PinFunction|PinGroup|PinGroupConfig|PinGroupFunction|QWordIO|QWordMemory|QWordSpace|RawDataBuffer|Register|SPISerialBusV2|StartDependentFnNoPri|StartDependentFn|UARTSerialBusV2|VendorLong|VendorShort|WordBusNumber|WordIO|WordSpace)\b
+      scope: keyword.other.asl
+
+  control-keywords:
+    - match: |-
+        \b(?xi:
+          If|
+          ElseIf|
+          Else
+        )\b
+      scope: keyword.control.conditional.asl
+    - match: (?i)\b(?:Switch|Case)\b
+      scope: keyword.control.asl
+    - match: (?i)\b(?:Default)\b
+      scope: keyword.control.asl
+
+  all-keywords:
+    - include: parameter-keywords
+    - include: const-expr-term
+    - include: asl-macros
+    - include: resource-templates
+    - include: control-keywords
+    - include: asl-primary-terms
+
+  entity-methods:
+    - match: |-
+        \b(?xi:
+          Device|
+          Function|
+          Load|
+          Method|
+          Mutex|
+          Name|
+          OperationRegion|
+          PowerResource|
+          Processor|
+          ThermalZone
+        )\b
+      scope: storage.type.asl
+      push: entity-args
+
+  entity-keywords:
+    - match: |-
+        \b(?xi:
+          Interrupt|
+          CreateDWordField
+        )\b
+      scope: keyword.other.asl
+      push: entity-last-args
+
+  cpp-macros:
+    - match: '{{cpp_macro}}'
+      scope: constant.other.macro.asl
+
+  preprocessor:
+    - match: '#include'
+      scope:  keyword.control.import.include.asl
+      push:
+        - include: string
+        - include: gt-lt-string
+        - include: or_pop
+
+    - match: '^#\s*(?:if|elseif|endif|ifdef)\b'
+      scope:  keyword.control.import.asl
+
+    - match: '#define'
+      scope:  keyword.control.import.define.asl
+      push:
+        - meta_scope: meta.preprocessor.define.asl
+        - match: '{{cpp_macro}}\s*(?=\()'
+          scope: entity.name.function.asl
+          set:
+            - meta_scope: meta.parens.define.asl
+            - match: \(
+              scope: punctuation.section.parens.begin.asl
+              push:
+                - match: \)
+                  scope: punctuation.section.parens.end.asl
+                  pop: true
+                - match: '\b[A-Z][A-Z_0-9]*\b'
+                  scope: variable.parameter.asl
+                - match: \,
+                  scope: punctuation.separator.asl
+            - include: or_pop
+        - match: '{{cpp_identifier}}'
+          scope: entity.name.asl
+        - include: or_pop
+
+  field-block-inner:
+    - meta_scope: meta.block.field.asl
+    - match: \}
+      scope: punctuation.section.block.end.asl
+      pop: true
+    - include: parens
+    - include: number
+    - match: \,
+      scope: punctuation.separator.asl
+    - match: (?i)\bOffset\b
+      scope: keyword.other.offset.asl
+    - match: '{{identifier}}'
+      scope: entity.name.field.asl
+
+  field-block-start:
+    - match: \{
+      scope: punctuation.section.block.begin.asl
+      set: field-block-inner
+    - include: or_pop
+
+  field:
+    - match: (?i)\b(?i:Field|IndexField)\b
+      scope: keyword.other.field.asl
+      push:
+        - field-block-start
+        - args
+
+  main:
+    - include: number
+    - include: string
+
+    - include: entity-methods
+    - include: entity-keywords
+    - include: field
+
+    - include: all-keywords
+
+    - include: block-start
+    - include: parens
+    - include: path
+    - include: super-name
+    - include: operators
+
+    - match: \,
+      scope: punctuation.separator.asl
+
+    - include: cpp-macros
+    - include: preprocessor
+
+    - match: '\w+'
+      scope: invalid.illegal
+
+    - match: '\S+'
+      scope: invalid.illegal
+
+
+  block-body:
+    - meta_scope: meta.block
+    - match: \}
+      scope: punctuation.section.block.end.asl
+      pop: true
+    - include: main
+
+  block-start:
+    - match: \{
+      scope: punctuation.section.block.begin.asl
+      push: block-body
+
+  unknown-method:
+    - match: (?i)\b\w+\b
+      scope: keyword.other.unknown.asl
+
+  operators:
+    - match: '(?:=|\+=|-=|\*=|\\=|\|=)'
+      scope: keyword.operator.assignment.asl
+    - match: '(?:\&\&|\|\|)'
+      scope: keyword.operator.logical.asl
+    - match: '(?:\+|-|\*|\\|<<|>>|&|\||\^|~|\/|%)'
+      scope: keyword.operator.arithmetic.asl
+    - match: '(?:>=|<=|==|!=|<|>)'
+      scope: keyword.operator.comparison.asl
+    - match: '(?:!)'
+      scope: keyword.operator.logical.asl
+    - match: '\b(?i:Add|Divide|Mod|Multiply|Subtract|ShiftLeft|ShiftRight|And|Or|Xor|Not|Increment|Decrement)\b'
+      scope: keyword.operator.word.asl
+    - match: '\b(?i:LEqual|LNotEqual|LLess|LGreater|LLessEqual|LGreaterEqual|LAnd|LOr|LNot)\b'
+      scope: keyword.operator.word.asl
+    - match: '\b(?i:Store)\b'
+      scope: keyword.operator.word.asl
+
+  super-name:
+    - match: (?i)\bLocal\d\b
+      scope: variable.language.asl
+    - match: (?i)\bArg\d\b
+      scope: variable.language.asl
+    - match: (?i)\bDebug\b
+      scope: variable.language.asl
+
+  entity-path:
+    - meta_content_scope: meta.entity-path.asl
+    - match: \\
+      scope: punctuation.root.asl
+    - match: \.
+      scope: punctuation.accessor.asl
+    - match: '{{reserved_identifier}}'
+      scope: variable.language.asl
+    - match: '{{identifier}}(?!\.)'
+      scope: entity.name.other.asl
+    - match: '{{identifier}}'
+      scope: variable.other.asl
+    - match: '{{cpp_identifier}}'
+      scope: constant.other.macro.c
+    - include: or_pop
+
+  args-end:
+    - meta_scope: meta.parens.asl
+    - match: \)
+      scope: punctuation.section.parens.end.asl
+      pop: true
+
+  args-list:
+    - match: (?=\))
+      pop: true
+    - include: main
+
+  entity-args:
+    - match: \(
+      scope: punctuation.section.parens.begin.asl
+      set:
+        - args-end
+        - args-list
+        - entity-path
+
+  not-last-param:
+    - match: (?=\))
+      fail: last-entity
+    - match: \,
+      scope: punctuation.separator.asl
+      pop: true
+    - include: main
+    - include: or_pop
+
+  last-param:
+    - match: (?=\)) # Success case!
+      pop: true
+    - include: entity-path
+
+  entity-last-args-list:
+    - match: \)
+      scope: punctuation.section.parens.end.asl
+      pop: true
+    - match: '(?=\w+)'
+      branch_point: last-entity
+      branch:
+        - not-last-param
+        - last-param
+
+  entity-last-args:
+    - match: \(
+      scope: punctuation.section.parens.begin.asl
+      set: entity-last-args-list
+    - include: or_pop
+
+  path:
+    - match: \\
+      scope: punctuation.root.asl
+      push: path-body
+    - match: '(?={{reserved_identifier}})'
+      push: path-body
+    - match: '(?={{identifier}})'
+      push: path-body
+
+  path-body:
+    - meta_scope: meta.path.asl
+    - match: \.
+      scope: punctuation.accessor
+    - match: '{{reserved_identifier}}'
+      scope: variable.language.asl
+    - match: '{{identifier}}'
+      scope: variable.other.asl
+    - match: (?=\()
+      set: args
+    - include: or_pop
+
+  args:
+    - match: \(
+      scope: punctuation.section.parens.begin.asl
+      set:
+        - args-end
+        - args-list
+
+  parens:
+    - match: \(
+      scope: punctuation.section.parens.begin.asl
+      push:
+        - args-end
+        - args-list
+
+  string:
+    - match: '"'
+      scope: punctuation.definition.string.begin.asl
+      push:
+        - meta_scope: string.quoted.double
+        - match: '"'
+          scope: punctuation.definition.string.end.asl
+          pop: true
+
+  gt-lt-string:
+    - match: '<'
+      scope: punctuation.definition.string.begin.asl
+      push:
+        - meta_scope: string.quoted.double
+        - match: '>'
+          scope: punctuation.definition.string.end.asl
+          pop: true
+
+  number:
+    - match: '\b0x[a-fA-F0-9]+\b'
+      scope: constant.numeric.integer.hexadecimal.asl
+    - match: '\b[0-9]+\b'
+      scope: constant.numeric.integer.decimal.asl

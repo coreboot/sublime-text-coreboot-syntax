@@ -12,12 +12,15 @@ easier.
 Device tree device aliases are also supported. This allows jumping between references and
 definitions of device tree devices.
 
+## ACPI Source Language (ASL)
+
+![ACPI Source Language Screenshot](screenshots/asl.png)
+
 Coming Soon:
 
 * C - There is [PR](https://github.com/sublimehq/Packages/pull/1831) that
   drastically improves the C syntax definition.
 * Kconfig
-* ASL
 
 ## Contributions
 

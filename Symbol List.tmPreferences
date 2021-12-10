@@ -4,7 +4,11 @@
 	<key>name</key>
 	<string>Symbol List</string>
 	<key>scope</key>
-	<string>source.cb entity.name.alias.cb</string>
+	<string>
+		source.cb entity.name.alias.cb,
+		source.asl entity.name.other.asl,
+		source.asl entity.name.field.asl
+	</string>
 	<key>settings</key>
 	<dict>
 		<key>showInSymbolList</key>
